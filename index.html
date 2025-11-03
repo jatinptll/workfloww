@@ -19,49 +19,171 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <style>
+      /* --- 1. THEME ENGINE: CSS VARIABLES --- */
       :root {
-        --bg-light: #f7f8fc;
-        --bg-dark: #111827;
-        --text-light: #1f2937;
-        --text-dark: #f9fafb;
-        --primary: #6366f1;
-        --primary-light: #818cf8;
-        --secondary: #10b981;
-        --accent: #f59e0b;
+        /* Light Mode (Default) */
+        --bg-page: #f7f8fc;
+        --bg-content: #ffffff;
+        --bg-content-hover: #f3f4f6; /* gray-100 */
+        --bg-input: #ffffff;
+        --bg-accent: #3b82f6; /* Changed from purple to energetic blue */
+        --bg-accent-hover: #2563eb; /* blue-700 */
+
+        --text-primary: #1f2937; /* gray-800 */
+        --text-secondary: #6b7280; /* gray-500 */
+        --text-accent: #3b82f6; /* Changed to match new accent */
+        --text-on-accent: #ffffff;
+        
+        --border-primary: #e5e7eb; /* gray-200 */
+        --border-focus: #60a5fa;
+        
+        /* Status Colors */
+        --status-todo-text: #ef4444; /* red-500 */
+        --status-todo-bg: rgba(239, 68, 68, 0.1);
+        --status-progress-text: #f59e0b; /* amber-500 */
+        --status-progress-bg: rgba(245, 158, 11, 0.1);
+        --status-done-text: #10b981; /* emerald-500 */
+        --status-done-bg: rgba(16, 185, 129, 0.1);
+        
+        /* NEW: Attention Button Colors */
+        --bg-attention: rgba(239, 68, 68, 0.1);
+        --text-attention: #ef4444;
+        --bg-attention-hover: rgba(239, 68, 68, 0.2);
+
+        --shadow-color: rgba(0, 0, 0, 0.05);
+        --modal-overlay-bg: rgba(17, 24, 39, 0.6);
+        --scrollbar-thumb: #d1d5db;
+        --scrollbar-thumb-hover: #9ca3af;
+
         --font-main: "Inter", sans-serif;
+        
+        transition: background-color 0.2s, color 0.2s;
       }
+
+      html[data-theme="dim"] {
+        /* Dim Mode */
+        --bg-page: #15202B;
+        --bg-content: #192734;
+        --bg-content-hover: #1E2732;
+        --bg-input: #253341;
+        --bg-accent: #60a5fa; /* Lighter blue for dim mode */
+        --bg-accent-hover: #93c5fd;
+
+        --text-primary: #E1E8ED;
+        --text-secondary: #8899A6;
+        --text-accent: #60a5fa;
+        --text-on-accent: #ffffff;
+
+        --border-primary: #253341;
+        --border-focus: #60a5fa;
+        
+        --status-todo-text: #f87171; /* red-400 */
+        --status-todo-bg: rgba(248, 113, 113, 0.1);
+        --status-progress-text: #fcd34d; /* yellow-400 */
+        --status-progress-bg: rgba(252, 211, 77, 0.1);
+        --status-done-text: #34d399; /* emerald-400 */
+        --status-done-bg: rgba(52, 211, 153, 0.1);
+        
+        /* NEW: Attention Button Colors */
+        --bg-attention: rgba(248, 113, 113, 0.1);
+        --text-attention: #f87171;
+        --bg-attention-hover: rgba(248, 113, 113, 0.2);
+
+        --shadow-color: rgba(255, 255, 255, 0.05);
+        --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+        --scrollbar-thumb: #38444D;
+        --scrollbar-thumb-hover: #536471;
+      }
+
+      html[data-theme="dark"] {
+        /* Dark Mode */
+        --bg-page: #000000;
+        --bg-content: #111111;
+        --bg-content-hover: #1D1D1D;
+        --bg-input: #1D1D1D;
+        --bg-accent: #60a5fa; /* Lighter blue for dark mode */
+        --bg-accent-hover: #93c5fd;
+
+        --text-primary: #E7E9EA;
+        --text-secondary: #71767B;
+        --text-accent: #60a5fa;
+        --text-on-accent: #ffffff;
+
+        --border-primary: #2F3336;
+        --border-focus: #60a5fa;
+        
+        --status-todo-text: #f87171;
+        --status-todo-bg: rgba(248, 113, 113, 0.1);
+        --status-progress-text: #fcd34d;
+        --status-progress-bg: rgba(252, 211, 77, 0.1);
+        --status-done-text: #34d399;
+        --status-done-bg: rgba(52, 211, 153, 0.1);
+        
+        /* NEW: Attention Button Colors */
+        --bg-attention: rgba(248, 113, 113, 0.1);
+        --text-attention: #f87171;
+        --bg-attention-hover: rgba(248, 113, 113, 0.2);
+
+        --shadow-color: rgba(255, 255, 255, 0.1);
+        --modal-overlay-bg: rgba(0, 0, 0, 0.8);
+        --scrollbar-thumb: #2F3336;
+        --scrollbar-thumb-hover: #525252;
+      }
+
+      /* --- 2. GLOBAL STYLES & RESETS --- */
       html,
       body {
         height: 100%;
         font-family: var(--font-main);
-        background-color: var(--bg-light);
-        color: var(--text-light);
+        background-color: var(--bg-page);
+        color: var(--text-primary);
       }
-      /* Custom scrollbar for a sleek look */
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 6px;
       }
       ::-webkit-scrollbar-thumb {
-        background: #d1d5db;
+        background: var(--scrollbar-thumb);
         border-radius: 6px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #9ca3af;
+        background: var(--scrollbar-thumb-hover);
       }
+
+      /* --- 3. THEME-AWARE COMPONENT STYLES --- */
+      #sidebar {
+        background-color: var(--bg-content);
+        box-shadow: 0 4px 6px -1px var(--shadow-color);
+      }
+      #sidebar h1, #page-title { color: var(--text-primary); }
+      #sidebar p, #page-subtitle, .text-gray-500 { color: var(--text-secondary); }
+      .text-gray-800 { color: var(--text-primary); }
+      .text-gray-600 { color: var(--text-secondary); }
+      .text-gray-400 { color: var(--text-secondary); opacity: 0.8; }
+      
+      .sidebar-item { color: var(--text-secondary); }
+      .sidebar-item:hover, .hover\:bg-gray-100:hover { 
+        background-color: var(--bg-content-hover); 
+        color: var(--text-primary);
+      }
+      .hover\:bg-indigo-50:hover { background-color: var(--bg-content-hover); }
+
       .sidebar-item-active {
-        background: linear-gradient(90deg, #e0e7ff, transparent);
-        color: var(--primary);
+        background: linear-gradient(90deg, var(--bg-content-hover), transparent);
+        color: var(--text-accent);
         font-weight: 600;
-        border-right: 3px solid var(--primary);
+        border-right: 3px solid var(--text-accent);
       }
+
       .kanban-column {
+        background-color: var(--bg-content-hover);
         min-width: 300px;
         max-width: 320px;
       }
-      .card-dragging {
-        opacity: 0.5;
-        transform: rotate(3deg);
-      }
+      .kanban-column h3 { color: var(--text-primary); }
+      
+      .card-dragging { opacity: 0.5; transform: rotate(3deg); }
+
       .status-badge {
         font-size: 0.7rem;
         padding: 0.2rem 0.6rem;
@@ -70,116 +192,456 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
-      .card {
-        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+      
+      /* Themed Status Colors */
+      .status-not-started { background-color: var(--status-todo-bg); color: var(--status-todo-text); }
+      .border-not-started { border-left-color: var(--status-todo-text); }
+      .status-in-progress { background-color: var(--status-progress-bg); color: var(--status-progress-text); }
+      .border-in-progress { border-left-color: var(--status-progress-text); }
+      .status-submitted { background-color: var(--status-done-bg); color: var(--status-done-text); }
+      .border-submitted { border-left-color: var(--status-done-text); }
+      
+      /* NEW: Themed Attention Button */
+      .btn-attention {
+        background-color: var(--bg-attention);
+        color: var(--text-attention);
       }
+      .btn-attention:hover {
+        background-color: var(--bg-attention-hover);
+      }
+
+      /* UPDATED: Added !important to override Tailwind */
+      .card, #quick-add, .actions-popup, .modal-overlay > div, .bg-white {
+        background-color: var(--bg-content) !important;
+        border: 1px solid var(--border-primary);
+        box-shadow: 0 1px 3px 0 var(--shadow-color), 0 1px 2px 0 var(--shadow-color);
+      }
+      .card { transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); }
       .card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color);
       }
+      .card h4 { color: var(--text-primary); }
+
       .modal-overlay {
-        background-color: rgba(17, 24, 39, 0.6);
+        background-color: var(--modal-overlay-bg);
         backdrop-filter: blur(4px);
       }
-      .progress-ring-circle {
-        transition: stroke-dashoffset 0.5s ease-in-out;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
+
+      /* Forms */
+      input, select {
+        background-color: var(--bg-input);
+        color: var(--text-primary);
+        border: 1px solid var(--border-primary);
       }
-      .folder-item-personal .folder-icon {
-        color: #8b5cf6; /* Violet */
+      input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+      input:focus, select:focus {
+        outline: none;
+        border-color: var(--border-focus);
+        box-shadow: 0 0 0 2px var(--border-focus);
       }
-      .folder-item-academics .folder-icon {
-        color: #3b82f6; /* Blue */
+      
+      /* Buttons */
+      .bg-indigo-600 { background-color: var(--bg-accent); color: var(--text-on-accent); }
+      .hover\:bg-indigo-700:hover { background-color: var(--bg-accent-hover); }
+      .text-indigo-500 { color: var(--text-accent); }
+      .hover\:text-indigo-700:hover { color: var(--text-accent); opacity: 0.8; }
+      
+      .modal-cancel, .border { border-color: var(--border-primary); }
+      .modal-cancel:hover { background-color: var(--bg-content-hover); }
+      
+      .border-t { border-top-color: var(--border-primary); }
+      
+      /* UPDATED: Added !important to override Tailwind */
+      .bg-gray-100 { background-color: var(--bg-content-hover) !important; }
+      .bg-gray-200 { background-color: var(--bg-content-hover) !important; }
+      
+      /* --- UPDATED: UNIFIED ICON COLORS --- */
+      [data-type="personal"] .subject-icon {
+        color: #8b5cf6; /* Kept user's original purple for personal */
       }
-      .subject-item .subject-icon {
-        color: #a5b4fc; /* Indigo lighter */
+      [data-type="academic"] .subject-icon {
+        color: #a5b4fc; /* Kept user's original light purple for academic */
+      }
+
+      /* NEW: Management Modal Styles */
+      .management-modal {
+        max-width: 800px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      
+      .management-section {
+        background-color: var(--bg-content);
+        border-radius: 0.5rem;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 1px 3px 0 var(--shadow-color);
+      }
+      
+      .management-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+      
+      .management-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+      
+      .management-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        background-color: var(--bg-content-hover);
+        margin-bottom: 0.5rem;
+      }
+      
+      .management-item:hover {
+        background-color: var(--bg-content-hover);
+      }
+      
+      .management-item-info {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+      
+      .management-item-icon {
+        margin-right: 0.75rem;
+        width: 1.5rem;
+        text-align: center;
+      }
+      
+      .management-item-name {
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+      
+      .management-item-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .management-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .management-btn-primary {
+        background-color: var(--bg-accent);
+        color: var(--text-on-accent);
+      }
+      
+      .management-btn-primary:hover {
+        background-color: var(--bg-accent-hover);
+      }
+      
+      .management-btn-secondary {
+        background-color: var(--bg-content-hover);
+        color: var(--text-secondary);
+        border: 1px solid var(--border-primary);
+      }
+      
+      .management-btn-secondary:hover {
+        background-color: var(--bg-content);
+        color: var(--text-primary);
+      }
+      
+      .management-btn-danger {
+        background-color: var(--bg-attention);
+        color: var(--text-attention);
+      }
+      
+      .management-btn-danger:hover {
+        background-color: var(--bg-attention-hover);
+      }
+      
+      .management-form {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      
+      .management-input {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.375rem;
+        border: 1px solid var(--border-primary);
+        background-color: var(--bg-input);
+        color: var(--text-primary);
+      }
+
+      /* NEW: Category Management Styles */
+      .category-management-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--bg-content);
+        border: 1px solid var(--border-primary);
+        margin-bottom: 0.75rem;
+      }
+      
+      .category-management-info {
+        display: flex;
+        align-items: center;
+        flex: 1;
+      }
+      
+      .category-management-icon {
+        margin-right: 0.75rem;
+        width: 1.5rem;
+        text-align: center;
+        font-size: 1.125rem;
+      }
+      
+      .category-management-name {
+        font-weight: 600;
+        color: var(--text-primary);
+        font-size: 1.125rem;
+      }
+      
+      .category-management-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      /* Theme Switcher UI */
+      #theme-switcher-ui {
+        background-color: var(--bg-page);
+        border: 1px solid var(--border-primary);
+      }
+      .theme-btn {
+        color: var(--text-secondary);
+        transition: all 0.2s ease-in-out;
+        flex: 1;
+        border: 2px solid transparent;
+      }
+      .theme-btn:hover {
+        color: var(--text-primary);
+      }
+      .theme-btn.active {
+        background-color: var(--bg-content);
+        color: var(--text-accent);
+        font-weight: 600;
+        box-shadow: 0 1px 3px 0 var(--shadow-color);
+        border: 2px solid var(--text-accent);
+      }
+
+      /* --- FIX 1: Improved action menu visibility --- */
+      .actions-popup {
+        min-width: 180px;
+        z-index: 100;
+      }
+      .actions-popup a {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        color: var(--text-primary);
+        transition: all 0.15s ease;
+        border-radius: 0.25rem;
+        margin: 0.125rem;
+      }
+      .actions-popup a:hover {
+        background-color: var(--bg-accent);
+        color: var(--text-on-accent);
+      }
+      .actions-popup a.action-delete:hover {
+        background-color: var(--bg-attention);
+        color: var(--text-attention);
+      }
+      .actions-popup a i {
+        width: 16px;
+        margin-right: 0.75rem;
+        text-align: center;
+      }
+      .actions-popup:not(.hidden) {
+        display: block !important;
+      }
+
+      /* --- FIX 2: Improved sidebar item hover states (REMOVED TRANSFORM) --- */
+      .sidebar-item {
+        transition: all 0.2s ease;
+        border-radius: 0.5rem;
+        margin: 0.125rem 0;
+      }
+      .sidebar-item:hover {
+        background-color: var(--bg-content-hover);
+      }
+      .sidebar-item-active {
+        background: linear-gradient(90deg, rgba(59, 130, 246, 0.1), transparent);
+        color: var(--text-accent);
+        font-weight: 600;
+        border-right: 3px solid var(--text-accent);
+      }
+      .sidebar-item-active:hover {
+        background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), transparent);
+      }
+      
+      /* --- Global Manage Button Styles --- */
+      #manage-all-btn {
+        background-color: var(--bg-content-hover);
+        color: var(--text-secondary);
+      }
+      #manage-all-btn:hover {
+        color: var(--text-primary);
+      }
+      
+      /* --- NEW: CSS for streamlined 'Add' buttons --- */
+      .add-item-btn {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          padding: 0.5rem 0.75rem; /* 8px 12px */
+          margin-top: 0.25rem; /* 4px */
+          font-size: 0.875rem; /* 14px */
+          font-weight: 500;
+          color: var(--text-secondary);
+          border-radius: 0.375rem; /* 6px */
+          transition: all 0.2s ease;
+      }
+      .add-item-btn:hover {
+          background-color: var(--bg-content-hover);
+          color: var(--text-primary);
+      }
+      .add-item-btn i {
+          width: 24px; /* w-6 */
+          margin-right: 0.75rem; /* ml-3 equivalent */
+          text-align: center;
+      }
+      
+      /* --- NEW: CSS for theme-aware data buttons (Fix 3) --- */
+      .data-action-btn {
+          color: var(--text-secondary);
+      }
+      .data-action-btn:hover {
+          background-color: var(--bg-content-hover);
+          color: var(--text-primary);
       }
     </style>
   </head>
 
-  <body class="flex h-screen bg-gray-100">
-    <!-- Sidebar -->
+  <body class="flex h-screen">
     <aside
       id="sidebar"
-      class="bg-white w-72 p-4 shadow-lg flex-shrink-0 transition-transform duration-300 ease-in-out -translate-x-full sm:translate-x-0 z-20 flex flex-col"
+      class="w-72 p-4 shadow-lg flex-shrink-0 transition-transform duration-300 ease-in-out -translate-x-full sm:translate-x-0 z-20 flex flex-col"
     >
       <div class="flex items-center gap-3 mb-8">
         <span class="text-3xl">🚀</span>
         <div>
-          <h1 class="text-xl font-bold text-gray-800">WorkFlow</h1>
-          <p class="text-xs text-gray-500">Your Work & Study Hub</p>
+          <h1 class="text-xl font-bold">WorkFlow</h1>
+          <p class="text-xs">Your Work & Study Hub</p>
         </div>
       </div>
 
       <nav id="subject-nav" class="space-y-2 mb-4">
         <a
           href="#"
-          class="sidebar-item flex items-center py-2.5 px-3 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
+          class="sidebar-item flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200"
           data-subject="dashboard"
         >
-          <i class="fas fa-home w-6 text-gray-500"></i>
+          <i class="fas fa-home w-6"></i>
           <span class="ml-3">Dashboard</span>
         </a>
         <a
           href="#"
-          class="sidebar-item flex items-center py-2.5 px-3 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
+          class="sidebar-item flex items-center py-2.5 px-3 rounded-lg transition-colors duration-200"
           data-subject="academics-overview"
         >
-          <i class="fas fa-graduation-cap w-6 text-gray-500"></i>
+          <i class="fas fa-graduation-cap w-6"></i>
           <span class="ml-3">Pending Academics</span>
         </a>
       </nav>
 
       <div class="flex-grow overflow-y-auto pr-2">
-        <!-- Personal Folder -->
-        <div class="mt-4">
-          <h3
-            class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+        <div class="px-1 mt-2">
+          <button
+            id="manage-all-btn"
+            class="w-full flex items-center justify-center py-2 px-3 rounded-lg text-sm font-medium transition-colors"
+            title="Manage categories & subjects"
           >
-            Personal
-          </h3>
-          <div id="personal-folder-list" class="mt-2 space-y-1">
-            <a
-              href="#"
-              class="sidebar-item folder-item-personal flex items-center py-2.5 px-3 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
-              data-subject="side-hustle"
-            >
-              <i class="fas fa-star w-6 folder-icon"></i>
-              <span class="ml-3">Building Things</span>
-              <span
-                class="ml-auto text-xs font-medium bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full"
-                data-count-id="side-hustle"
-              ></span>
-            </a>
-          </div>
+            <i class="fas fa-pencil-alt"></i>
+            <span class="ml-2">Manage All</span>
+          </button>
         </div>
 
-        <!-- Academics Folder -->
+        <div class="mt-4">
+          <div class="flex items-center justify-between px-3 mb-2">
+            <h3
+              data-category="personal"
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
+            >
+              Personal
+            </h3>
+          </div>
+          <div id="personal-folder-list" class="mt-2 space-y-1"></div>
+        </div>
+
         <div class="mt-6">
           <div class="flex items-center justify-between px-3 mb-2">
             <h3
+              data-category="academics"
               class="text-xs font-semibold text-gray-400 uppercase tracking-wider"
             >
               Academics
             </h3>
-            <button
-              id="add-subject-btn"
-              class="text-indigo-500 hover:text-indigo-700 text-lg"
-              title="Add new subject"
-            >
-              <i class="fas fa-plus-circle"></i>
-            </button>
           </div>
           <div id="subject-list" class="space-y-1"></div>
         </div>
       </div>
 
-      <div class="mt-auto border-t pt-4 text-sm text-gray-600">
+      <div class="mt-6 mb-2">
+        <h3
+          class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+        >
+          Theme
+        </h3>
+        <div
+          class="mt-2 flex items-center justify-around rounded-lg p-1"
+          id="theme-switcher-ui"
+        >
+          <button
+            class="theme-btn px-3 py-1 text-sm font-medium rounded-md"
+            data-theme="light"
+            title="Light Mode"
+          >
+            ☀️ Light
+          </button>
+          <button
+            class="theme-btn px-3 py-1 text-sm font-medium rounded-md"
+            data-theme="dim"
+            title="Dim Mode"
+          >
+            🌙 Dim
+          </button>
+          <button
+            class="theme-btn px-3 py-1 text-sm font-medium rounded-md"
+            data-theme="dark"
+            title="Dark Mode"
+          >
+            🌑 Dark
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-auto border-t pt-4 text-sm">
         <button
           id="export-btn"
-          class="w-full flex items-center py-2 px-3 rounded hover:bg-gray-100 transition-colors"
+          class="data-action-btn w-full flex items-center py-2 px-3 rounded transition-colors"
         >
           <i class="fas fa-download mr-3 w-5"></i>Export Data
         </button>
@@ -192,7 +654,7 @@
           />
           <span
             id="import-btn"
-            class="w-full flex items-center py-2 px-3 rounded hover:bg-gray-100 cursor-pointer transition-colors"
+            class="data-action-btn w-full flex items-center py-2 px-3 rounded cursor-pointer transition-colors"
           >
             <i class="fas fa-upload mr-3 w-5"></i>Import Data
           </span>
@@ -200,28 +662,24 @@
       </div>
     </aside>
 
-    <!-- Mobile overlay -->
     <div
       id="mobile-overlay"
       class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden sm:hidden"
     ></div>
 
-    <!-- Main -->
     <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
       <div class="max-w-7xl mx-auto">
         <header class="flex flex-wrap items-center justify-between gap-4 mb-8">
           <div class="flex items-center">
             <button
               id="mobile-menu-button"
-              class="sm:hidden mr-3 p-2 text-gray-500 hover:bg-gray-200 rounded-lg"
+              class="sm:hidden mr-3 p-2 rounded-lg"
             >
               <i class="fas fa-bars text-xl"></i>
             </button>
             <div>
-              <h2 id="page-title" class="text-3xl font-bold text-gray-800">
-                Dashboard
-              </h2>
-              <p id="page-subtitle" class="text-sm text-gray-500">
+              <h2 id="page-title" class="text-3xl font-bold">Dashboard</h2>
+              <p id="page-subtitle" class="text-sm">
                 Welcome back! Let's get things done.
               </p>
             </div>
@@ -229,13 +687,13 @@
           <div class="flex items-center gap-3">
             <div class="relative">
               <i
-                class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2"
               ></i>
               <input
                 id="global-search"
                 type="search"
                 placeholder="Search tasks..."
-                class="pl-10 pr-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 w-48"
+                class="pl-10 pr-4 py-2 text-sm border rounded-lg w-48"
               />
             </div>
             <button
@@ -247,23 +705,22 @@
           </div>
         </header>
 
-        <!-- Quick add bar -->
-        <div id="quick-add" class="hidden bg-white rounded-lg p-4 shadow-md mb-6">
+        <div id="quick-add" class="hidden rounded-lg p-4 shadow-md mb-6">
           <form id="quick-add-form" class="flex flex-wrap gap-3 items-center">
             <input
               id="quick-title"
               placeholder="Enter a new task title and press Enter..."
-              class="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              class="flex-1 px-3 py-2 border rounded-lg"
               required
             />
             <input
               id="quick-due"
               type="date"
-              class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              class="px-3 py-2 border rounded-lg"
             />
             <select
               id="quick-subject"
-              class="px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              class="px-3 py-2 border rounded-lg"
             ></select>
             <button
               class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
@@ -277,38 +734,38 @@
       </div>
     </main>
 
-    <!-- Modals & Toaster -->
     <div id="modals-container"></div>
     <div
       id="snackbar"
       class="fixed left-1/2 transform -translate-x-1/2 bottom-6 hidden bg-gray-900 text-white px-4 py-2 rounded-lg shadow-lg z-50"
     ></div>
 
-    <!-- Templates -->
     <template id="subject-item-tpl">
-      <a
-        href="#"
-        class="sidebar-item subject-item flex items-center py-2.5 px-3 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
-        data-subject="__id__"
-      >
-        <i class="fas fa-book w-6 subject-icon"></i>
-        <span class="ml-3">__name__</span>
-        <span
-          class="ml-auto text-xs font-medium bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full"
-          data-count-id="__id__"
-        ></span>
-      </a>
+      <div class="subject-item-container relative" data-type="__type__">
+        <a
+          href="#"
+          class="sidebar-item subject-item flex items-center py-2.5 px-3"
+          data-subject="__id__"
+        >
+          <i class="fas __iconClass__ w-6 subject-icon"></i>
+          <span class="ml-3 flex-1 subject-name">__name__</span>
+          <span
+            class="ml-auto text-xs font-medium bg-gray-200 px-2 py-0.5 rounded-full subject-count"
+            data-count-id="__id__"
+          ></span>
+        </a>
+      </div>
     </template>
 
     <template id="kanban-column-tpl">
       <div
-        class="kanban-column flex flex-col gap-4 bg-gray-100/50 rounded-xl p-4"
+        class="kanban-column flex flex-col gap-4 rounded-xl p-4"
       >
         <div class="flex items-center justify-between px-1">
-          <h3 class="font-semibold text-gray-700">
+          <h3 class="font-semibold">
             __emoji__ __title__
             <span
-              class="text-sm text-gray-500 font-medium bg-gray-200 rounded-full px-2 py-0.5 ml-2"
+              class="text-sm font-medium bg-gray-200 rounded-full px-2 py-0.5 ml-2"
               >__count__</span
             >
           </h3>
@@ -322,61 +779,132 @@
 
     <template id="card-tpl">
       <div
-        class="card bg-white p-4 rounded-lg shadow-sm border-l-4"
+        class="card p-4 rounded-lg shadow-sm border-l-4 __borderClass__"
         draggable="true"
         data-id="__id__"
-        style="border-color: __borderColor__"
       >
         <div class="flex items-start justify-between">
-          <h4 class="font-semibold text-gray-800 flex-1 pr-2">__title__</h4>
+          <h4 class="font-semibold flex-1 pr-2">__title__</h4>
           <div class="relative">
             <button
-              class="card-actions text-gray-400 hover:text-gray-700 transition-colors"
+              class="card-actions hover:text-gray-700 transition-colors"
             >
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <div
-              class="actions-popup hidden absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-xl z-10"
+              class="actions-popup hidden absolute right-0 mt-2 border rounded-md shadow-xl z-10"
             >
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 action-edit"
-                ><i class="fas fa-edit mr-3 text-gray-400 w-4"></i>Edit</a
+                class="action-edit"
+                ><i class="fas fa-edit mr-3 w-4"></i>Edit</a
               >
               <div class="border-t my-1"></div>
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 action-set-status"
+                class="action-set-status"
                 data-set-status="not-started"
                 ><i class="fas fa-circle mr-3 text-red-400 w-4"></i>To Do</a
               >
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 action-set-status"
+                class="action-set-status"
                 data-set-status="in-progress"
                 ><i class="fas fa-circle mr-3 text-yellow-400 w-4"></i>In
                 Progress</a
               >
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 action-set-status"
+                class="action-set-status"
                 data-set-status="submitted"
                 ><i class="fas fa-circle mr-3 text-green-400 w-4"></i>Done</a
               >
               <div class="border-t my-1"></div>
               <a
                 href="#"
-                class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 action-delete"
+                class="action-delete"
                 ><i class="fas fa-trash mr-3 w-4"></i>Delete</a
               >
             </div>
           </div>
         </div>
         <div class="flex items-center justify-between mt-3 text-xs">
-          <p class="text-gray-500 __dueColor__">
+          <p class="__dueColor__">
             <i class="far fa-calendar-alt mr-1.5"></i>__dueText__
           </p>
-          <span class="status-badge __statusColor__">__statusLabel__</span>
+          <span class="status-badge __statusClass__">__statusLabel__</span>
+        </div>
+      </div>
+    </template>
+
+    <template id="management-modal-tpl">
+      <div class="modal-overlay fixed inset-0 flex items-center justify-center z-50 p-4">
+        <div class="management-modal bg-white rounded-lg shadow-xl w-full max-w-3xl p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-2xl font-bold">Manage All</h3>
+            <button class="modal-close hover:text-gray-700 text-xl">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          
+          <!-- NEW: Category Management Section -->
+          <div class="management-section">
+            <div class="management-header">
+              <h4 class="management-title">Categories</h4>
+            </div>
+            <div class="category-management-list" id="category-management-list"></div>
+          </div>
+          
+          <div class="management-section">
+            <div class="management-header">
+              <h4 class="management-title">Personal Folders</h4>
+              <button class="management-btn management-btn-primary add-folder-btn" data-type="personal">
+                <i class="fas fa-plus"></i>
+                Add Folder
+              </button>
+            </div>
+            <div class="management-list" id="personal-management-list"></div>
+            <form class="management-form hidden" id="add-personal-form">
+              <input type="text" class="management-input" placeholder="Enter folder name..." required>
+              <button type="submit" class="management-btn management-btn-primary">
+                <i class="fas fa-check"></i>
+                Add
+              </button>
+              <button type="button" class="management-btn management-btn-secondary cancel-add-btn">
+                <i class="fas fa-times"></i>
+                Cancel
+              </button>
+            </form>
+          </div>
+          
+          <div class="management-section">
+            <div class="management-header">
+              <h4 class="management-title">Academic Subjects</h4>
+              <button class="management-btn management-btn-primary add-subject-btn" data-type="academic">
+                <i class="fas fa-plus"></i>
+                Add Subject
+              </button>
+            </div>
+            <div class="management-list" id="academic-management-list"></div>
+            <form class="management-form hidden" id="add-academic-form">
+              <input type="text" class="management-input" placeholder="Enter subject name..." required>
+              <button type="submit" class="management-btn management-btn-primary">
+                <i class="fas fa-check"></i>
+                Add
+              </button>
+              <button type="button" class="management-btn management-btn-secondary cancel-add-btn">
+                <i class="fas fa-times"></i>
+                Cancel
+              </button>
+            </form>
+          </div>
+          
+          <div class="flex justify-end mt-6">
+            <button class="management-btn management-btn-secondary modal-close">
+              <i class="fas fa-times"></i>
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </template>
@@ -386,20 +914,20 @@
       const statusConfig = {
         "not-started": {
           label: "To Do",
-          color: "bg-red-100 text-red-700",
-          borderColor: "#fca5a5",
+          statusClass: "status-not-started",
+          borderClass: "border-not-started",
           emoji: "🔴",
         },
         "in-progress": {
           label: "In Progress",
-          color: "bg-yellow-100 text-yellow-800",
-          borderColor: "#fcd34d",
+          statusClass: "status-in-progress",
+          borderClass: "border-in-progress",
           emoji: "🟡",
         },
         submitted: {
           label: "Done",
-          color: "bg-green-100 text-green-800",
-          borderColor: "#86efac",
+          statusClass: "status-submitted",
+          borderClass: "border-submitted",
           emoji: "🟢",
         },
       };
@@ -412,8 +940,37 @@
         "Don't watch the clock; do what it does. Keep going.",
       ];
 
-      let appData = { subjects: [], practicals: {}, active: "dashboard" };
+      // UPDATED: Added categoryNames to default state
+      let appData = { 
+        subjects: [], 
+        practicals: {}, 
+        active: "dashboard",
+        categoryNames: { personal: 'Personal', academics: 'Academics' }
+      };
       let lastDeleted = null;
+      let currentTheme = "light";
+
+      // --- Theme Functions ---
+      function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        currentTheme = theme;
+        localStorage.setItem("workflowTheme_v1", theme);
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.theme === theme);
+        });
+      }
+
+      function loadTheme() {
+        let savedTheme = localStorage.getItem("workflowTheme_v1");
+        if (savedTheme) {
+          applyTheme(savedTheme);
+        } else {
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          applyTheme(prefersDark ? "dim" : "light");
+        }
+      }
 
       // --- Utility Functions ---
       const uid = (prefix = "p") =>
@@ -431,9 +988,37 @@
         if (raw) {
           try {
             appData = JSON.parse(raw);
-            if (!appData.practicals["side-hustle"]) {
-              appData.practicals["side-hustle"] = [];
+            
+            // --- NEW: Data Migration Logic ---
+            if (!appData.categoryNames) {
+              appData.categoryNames = { personal: 'Personal', academics: 'Academics' };
             }
+            if (appData.practicals['side-hustle']) {
+              // Ensure "Building Things" subject exists
+              if (!appData.subjects.find(s => s.id === 'building-things')) {
+                appData.subjects.unshift({ id: 'building-things', name: 'Building Things', type: 'personal' });
+              }
+              // Move tasks
+              if(!appData.practicals['building-things']) {
+                  appData.practicals['building-things'] = [];
+              }
+              appData.practicals['building-things'] = appData.practicals['building-things'].concat(appData.practicals['side-hustle']);
+              delete appData.practicals['side-hustle'];
+              
+              // If active was side-hustle, update it
+              if (appData.active === 'side-hustle') {
+                appData.active = 'building-things';
+              }
+            }
+            // Ensure all subjects have a type
+            appData.subjects.forEach(s => {
+              if (!s.type) {
+                // Legacy subjects are academic, except for our migrated one
+                s.type = s.id === 'building-things' ? 'personal' : 'academic';
+              }
+            });
+            // --- End Migration Logic ---
+
           } catch (e) {
             console.error("Error parsing saved data, resetting.", e);
             resetData();
@@ -443,19 +1028,30 @@
         }
       }
 
+      // UPDATED: resetData now includes new structure
       function resetData() {
         appData = {
           subjects: [
-            { id: "aad", name: "AAD" },
-            { id: "dsmr", name: "DSMR" },
-            { id: "ma", name: "M&A" },
+            { id: "building-things", name: "Building Things", type: "personal" },
+            { id: "aad", name: "AAD", type: "academic" },
+            { id: "dsmr", name: "DSMR", type: "academic" },
+            { id: "ma", name: "M&A", type: "academic" },
           ],
           practicals: {
-            "side-hustle": [],
+            "building-things": [],
+            "aad": [],
+            "dsmr": [],
+            "ma": [],
           },
           active: "dashboard",
+          categoryNames: { personal: 'Personal', academics: 'Academics' }
         };
-        appData.subjects.forEach((s) => (appData.practicals[s.id] = []));
+        // Ensure all practicals lists exist
+        appData.subjects.forEach((s) => {
+          if (!appData.practicals[s.id]) {
+            appData.practicals[s.id] = []
+          }
+        });
       }
 
       function showToast(text, isUndo = false) {
@@ -496,9 +1092,9 @@
       function relativeDueText(datestr) {
         if (!datestr) return { text: "No due date", color: "text-gray-500" };
         const d = new Date(datestr);
-        d.setHours(0, 0, 0, 0);
+d.setHours(0, 0, 0, 0);
         const t = new Date();
-        t.setHours(0, 0, 0, 0);
+t.setHours(0, 0, 0, 0);
         const diff = Math.round((d - t) / (1000 * 60 * 60 * 24));
         if (diff < 0)
           return {
@@ -510,8 +1106,8 @@
             text: "Due today",
             color: "text-amber-600 font-semibold",
           };
-        if (diff === 1) return { text: "Due tomorrow", color: "text-gray-600" };
-        return { text: `Due in ${diff} days`, color: "text-gray-500" };
+        if (diff === 1) return { text: "Due tomorrow", color: "" };
+        return { text: `Due in ${diff} days`, color: "" };
       }
 
       // --- Rendering Engine ---
@@ -527,19 +1123,38 @@
         }
       }
 
+      // UPDATED: renderSidebar now handles dynamic categories and types
       function renderSidebar() {
+        const personalList = document.getElementById("personal-folder-list");
         const subjectList = document.getElementById("subject-list");
+        personalList.innerHTML = "";
         subjectList.innerHTML = "";
         const subjectTpl = document.getElementById("subject-item-tpl")
           .innerHTML;
 
+        // Set category header names
+        document.querySelector('[data-category="personal"]').textContent = 
+          (appData.categoryNames.personal || 'Personal').toUpperCase();
+        document.querySelector('[data-category="academics"]').textContent = 
+          (appData.categoryNames.academics || 'Academics').toUpperCase();
+
+        // Render all subjects into their respective lists
         appData.subjects.forEach((s) => {
+          const iconClass = s.type === 'personal' ? 'fa-star' : 'fa-book';
           const html = subjectTpl
             .replaceAll("__id__", s.id)
-            .replace("__name__", s.name);
-          subjectList.insertAdjacentHTML("beforeend", html);
+            .replace("__name__", escapeHtml(s.name))
+            .replace("__iconClass__", iconClass)
+            .replace("__type__", s.type);
+          
+          if (s.type === 'personal') {
+            personalList.insertAdjacentHTML("beforeend", html);
+          } else {
+            subjectList.insertAdjacentHTML("beforeend", html);
+          }
         });
 
+        // Update all counts
         document
           .querySelectorAll("[data-count-id]")
           .forEach((el) => {
@@ -549,6 +1164,7 @@
             el.classList.toggle("hidden", count === 0);
           });
 
+        // Set active item
         document.querySelectorAll(".sidebar-item").forEach((it) => {
           it.classList.toggle(
             "sidebar-item-active",
@@ -556,13 +1172,14 @@
           );
         });
 
+        // UPDATED: Quick subject dropdown now dynamic
         const quickSub = document.getElementById("quick-subject");
-        quickSub.innerHTML =
-          '<option value="side-hustle">🌟 Side Hustle</option>';
+        quickSub.innerHTML = "";
         appData.subjects.forEach((s) => {
           const opt = document.createElement("option");
+          const icon = s.type === 'personal' ? '🌟' : '📚';
           opt.value = s.id;
-          opt.textContent = `📚 ${s.name}`;
+          opt.textContent = `${icon} ${s.name}`;
           quickSub.appendChild(opt);
         });
       }
@@ -593,7 +1210,12 @@
           }
         });
 
-        upcoming.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+        upcoming.sort((a, b) => {
+            if (a.dueDate && b.dueDate) return new Date(a.dueDate) - new Date(b.dueDate);
+            if (a.dueDate) return -1;
+            if (b.dueDate) return 1;
+            return 0;
+        });
         const nextTasks = upcoming.slice(0, 5);
         const progress = total > 0 ? Math.round((done / total) * 100) : 0;
         const radius = 54;
@@ -608,46 +1230,54 @@
                 <div class="relative w-32 h-32">
                   <svg class="w-full h-full" viewBox="0 0 120 120">
                     <circle class="text-gray-200" stroke-width="12" stroke="currentColor" fill="transparent" r="${radius}" cx="60" cy="60"/>
-                    <circle class="progress-ring-circle text-indigo-500" stroke-width="12" stroke-linecap="round" stroke="currentColor" fill="transparent" r="${radius}" cx="60" cy="60" style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${offset};"/>
+                    <circle class="progress-ring-circle text-indigo-500" 
+                            stroke-width="12" 
+                            stroke-linecap="round" 
+                            stroke="currentColor" 
+                            fill="transparent" 
+                            r="${radius}" 
+                            cx="60" 
+                            cy="60" 
+                            style="stroke-dasharray: ${circumference}; stroke-dashoffset: ${offset};"
+                            transform="rotate(-90 60 60)" />
                   </svg>
-                  <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">${progress}%</div>
+                  <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold">${progress}%</div>
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold text-gray-800">Your Progress</h3>
-                  <p class="text-gray-500">You've completed ${done} of ${total} tasks. Keep it up!</p>
+                  <h3 class="text-xl font-bold">Your Progress</h3>
+                  <p>You've completed ${done} of ${total} tasks. Keep it up!</p>
                 </div>
               </div>
               <div class="flex gap-4 text-center">
-                <div><div class="text-2xl font-bold text-gray-800">${total}</div><div class="text-sm text-gray-500">Total</div></div>
-                <div><div class="text-2xl font-bold text-green-500">${done}</div><div class="text-sm text-gray-500">Done</div></div>
-                <div><div class="text-2xl font-bold text-red-500">${overdue}</div><div class="text-sm text-gray-500">Overdue</div></div>
+                <div><div class="text-2xl font-bold">${total}</div><div class="text-sm">Total</div></div>
+                <div><div class="text-2xl font-bold text-green-500">${done}</div><div class="text-sm">Done</div></div>
+                <div><div class="text-2xl font-bold text-red-500">${overdue}</div><div class="text-sm">Overdue</div></div>
               </div>
             </div>
             <div class="bg-white p-6 rounded-xl shadow-md">
-              <h3 class="font-bold text-xl text-gray-800 mb-4">🗓️ Upcoming Deadlines</h3>
+              <h3 class="font-bold text-xl mb-4">🗓️ Upcoming Deadlines</h3>
               ${
                 nextTasks.length > 0
                   ? `<div class="space-y-3">${nextTasks
                       .map((p) => {
                         const subject = findSubjectByPracticalId(p.id);
                         const { text, color } = relativeDueText(p.dueDate);
+                        const icon = subject && subject.type === 'personal' ? '🌟' : '📚';
+                        const name = subject ? subject.name : 'Unknown';
+                        
                         return `
-                          <div class="p-3 bg-gray-50 rounded-lg flex items-center justify-between border-l-4 border-indigo-300">
+                          <div class="p-3 bg-gray-100 rounded-lg flex items-center justify-between border-l-4 border-indigo-300">
                             <div>
-                              <div class="font-semibold text-gray-800">${escapeHtml(
+                              <div class="font-semibold">${escapeHtml(
                                 p.title
                               )}</div>
-                              <div class="text-xs text-gray-500">${
-                                subject
-                                  ? `📚 ${subject.name}`
-                                  : "🌟 Side Hustle"
-                              }</div>
+                              <div class="text-xs">${icon} ${escapeHtml(name)}</div>
                             </div>
                             <div class="text-sm text-right ${color}">${text}</div>
                           </div>`;
                       })
                       .join("")}</div>`
-                  : `<p class="text-sm text-gray-500 text-center py-4">No upcoming deadlines. You're all caught up!</p>`
+                  : `<p class="text-sm text-center py-4">No upcoming deadlines. You're all caught up!</p>`
               }
             </div>
           </div>
@@ -661,13 +1291,13 @@
               }"</p>
             </div>
             <div class="bg-white p-6 rounded-xl shadow-md">
-                <h3 class="font-bold text-xl text-gray-800 mb-4">⚡ Quick Actions</h3>
+                <h3 class="font-bold text-xl mb-4">⚡ Quick Actions</h3>
                 <div class="space-y-2">
-                    <button id="focus-overdue" class="w-full text-left py-2 px-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition-colors">
+                    <button id="focus-overdue" class="btn-attention w-full text-left py-2 px-3 rounded-lg transition-colors">
                         <i class="fas fa-exclamation-triangle w-5 mr-2"></i>Focus on Overdue Tasks
                     </button>
                     <button id="view-personal" class="w-full text-left py-2 px-3 hover:bg-gray-100 rounded-lg transition-colors">
-                        <i class="fas fa-star w-5 mr-2 text-gray-500"></i>View Personal Projects
+                        <i class="fas fa-star w-5 mr-2"></i>View Personal Projects
                     </button>
                 </div>
             </div>
@@ -684,12 +1314,15 @@
 
         const academicTasks = [];
         appData.subjects.forEach((subject) => {
-          const tasks = appData.practicals[subject.id] || [];
-          tasks.forEach((task) => {
-            if (task.status !== "submitted") {
-              academicTasks.push({ ...task, subjectName: subject.name });
-            }
-          });
+          // Only include 'academic' types
+          if (subject.type === 'academic') {
+            const tasks = appData.practicals[subject.id] || [];
+            tasks.forEach((task) => {
+              if (task.status !== "submitted") {
+                academicTasks.push({ ...task, subjectName: subject.name });
+              }
+            });
+          }
         });
 
         academicTasks.sort((a, b) => {
@@ -711,8 +1344,8 @@
         if (filteredItems.length === 0) {
           area.innerHTML = `
             <div class="bg-white p-6 rounded-xl shadow-md text-center">
-                <h3 class="font-bold text-xl text-gray-800 mb-2">🎉 All Clear!</h3>
-                <p class="text-gray-500">You have no pending tasks across all your academic subjects. Great job!</p>
+                <h3 class="font-bold text-xl mb-2">🎉 All Clear!</h3>
+                <p>You have no pending tasks across all your academic subjects. Great job!</p>
             </div>`;
           return;
         }
@@ -726,14 +1359,14 @@
               .replace("__title__", escapeHtml(p.title))
               .replace("__dueText__", text)
               .replace("__dueColor__", color)
-              .replace("__borderColor__", statusConfig[p.status].borderColor)
+              .replace("__borderClass__", statusConfig[p.status].borderClass)
               .replace("__statusLabel__", statusConfig[p.status].label)
-              .replace("__statusColor__", statusConfig[p.status].color);
+              .replace("__statusClass__", statusConfig[p.status].statusClass);
 
             const cardDom = document.createElement("div");
             cardDom.innerHTML = cardHtml;
             const subjectInfo = document.createElement("p");
-            subjectInfo.className = "text-xs text-gray-500 mt-1";
+            subjectInfo.className = "text-xs mt-1";
             subjectInfo.innerHTML = `<i class="fas fa-book mr-1.5"></i> ${escapeHtml(
               p.subjectName
             )}`;
@@ -751,10 +1384,8 @@
       }
 
       function renderSubjectPage(subjectId) {
-        const subject =
-          subjectId === "side-hustle"
-            ? { id: "side-hustle", name: "Side Hustle" }
-            : appData.subjects.find((s) => s.id === subjectId);
+        // UPDATED: Now finds any subject by ID
+        const subject = appData.subjects.find((s) => s.id === subjectId);
 
         if (!subject) {
           appData.active = "dashboard";
@@ -805,14 +1436,20 @@
                 .replace("__title__", escapeHtml(p.title))
                 .replace("__dueText__", text)
                 .replace("__dueColor__", color)
-                .replace("__borderColor__", statusConfig[p.status].borderColor)
+                .replace(
+                  "__borderClass__",
+                  statusConfig[p.status].borderClass
+                )
                 .replace("__statusLabel__", statusConfig[p.status].label)
-                .replace("__statusColor__", statusConfig[p.status].color);
+                .replace(
+                  "__statusClass__",
+                  statusConfig[p.status].statusClass
+                );
               dropArea.insertAdjacentHTML("beforeend", cardHtml);
             });
           } else {
             dropArea.innerHTML =
-              '<div class="text-sm text-gray-500 text-center py-10 border-2 border-dashed rounded-lg">Drag tasks here</div>';
+              '<div class="text-sm text-center py-10 border-2 border-dashed rounded-lg">Drag tasks here</div>';
           }
         });
 
@@ -820,11 +1457,251 @@
         attachDragDrop();
       }
 
+      // NEW: Management Modal Functions
+      function openManagementModal() {
+        const modalTpl = document.getElementById("management-modal-tpl").innerHTML;
+        const modalWrap = document.createElement("div");
+        modalWrap.innerHTML = modalTpl;
+        document.getElementById("modals-container").appendChild(modalWrap);
+        
+        const modal = modalWrap.querySelector(".modal-overlay");
+        
+        // Render management lists
+        renderManagementLists();
+        
+        // Close modal handlers
+        modal.querySelectorAll(".modal-close").forEach(btn => {
+          btn.addEventListener("click", () => modal.remove());
+        });
+        
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) modal.remove();
+        });
+        
+        // Add button handlers
+        modal.querySelector(".add-folder-btn").addEventListener("click", () => {
+          showAddForm("personal");
+        });
+        
+        modal.querySelector(".add-subject-btn").addEventListener("click", () => {
+          showAddForm("academic");
+        });
+        
+        // Cancel add handlers
+        modal.querySelectorAll(".cancel-add-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            hideAllAddForms();
+          });
+        });
+        
+        // Form submission handlers
+        modal.querySelector("#add-personal-form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const input = e.target.querySelector("input");
+          const name = input.value.trim();
+          if (name) {
+            addSubject(name, "personal");
+            input.value = "";
+            hideAllAddForms();
+            renderManagementLists();
+            render();
+          }
+        });
+        
+        modal.querySelector("#add-academic-form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const input = e.target.querySelector("input");
+          const name = input.value.trim();
+          if (name) {
+            addSubject(name, "academic");
+            input.value = "";
+            hideAllAddForms();
+            renderManagementLists();
+            render();
+          }
+        });
+        
+        return modal;
+      }
+      
+      function renderManagementLists() {
+        const personalList = document.getElementById("personal-management-list");
+        const academicList = document.getElementById("academic-management-list");
+        const categoryList = document.getElementById("category-management-list");
+        
+        personalList.innerHTML = "";
+        academicList.innerHTML = "";
+        categoryList.innerHTML = "";
+        
+        // NEW: Render category management items
+        categoryList.appendChild(createCategoryManagementItem("personal"));
+        categoryList.appendChild(createCategoryManagementItem("academics"));
+        
+        // Render personal folders
+        appData.subjects
+          .filter(s => s.type === "personal")
+          .forEach(subject => {
+            personalList.appendChild(createManagementItem(subject));
+          });
+          
+        // Render academic subjects
+        appData.subjects
+          .filter(s => s.type === "academic")
+          .forEach(subject => {
+            academicList.appendChild(createManagementItem(subject));
+          });
+      }
+      
+      // NEW: Create category management item
+      function createCategoryManagementItem(categoryKey) {
+        const item = document.createElement("div");
+        item.className = "category-management-item";
+        item.dataset.category = categoryKey;
+        
+        const icon = categoryKey === "personal" ? "fa-star" : "fa-graduation-cap";
+        const displayName = appData.categoryNames[categoryKey] || 
+                           (categoryKey === "personal" ? "Personal" : "Academics");
+        
+        item.innerHTML = `
+          <div class="category-management-info">
+            <div class="category-management-icon">
+              <i class="fas ${icon}"></i>
+            </div>
+            <div class="category-management-name">${escapeHtml(displayName)}</div>
+          </div>
+          <div class="category-management-actions">
+            <button class="management-btn management-btn-secondary edit-category-btn">
+              <i class="fas fa-edit"></i>
+              Edit Name
+            </button>
+          </div>
+        `;
+        
+        // Add event listener for editing category name
+        item.querySelector(".edit-category-btn").addEventListener("click", () => {
+          openEditCategoryModal(categoryKey);
+        });
+        
+        return item;
+      }
+      
+      // NEW: Open edit category modal
+      function openEditCategoryModal(categoryKey) {
+        const currentName = appData.categoryNames[categoryKey] || 
+                           (categoryKey === "personal" ? "Personal" : "Academics");
+                           
+        const modal = createModal(
+          `✏️ Edit ${categoryKey === "personal" ? "Personal" : "Academics"} Category Name`,
+          `<form class='space-y-4'>
+            <div>
+              <label for='category-name-edit' class='block text-sm font-medium mb-1'>Category Name</label>
+              <input id='category-name-edit' value="${escapeHtml(
+                currentName
+              )}" class='w-full px-3 py-2 border rounded-lg' required/>
+            </div>
+            <div class='flex justify-end gap-2 pt-2'>
+              <button type='button' class='modal-cancel px-4 py-2 border rounded-lg hover:bg-gray-100'>Cancel</button>
+              <button class='px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700'>Save Changes</button>
+            </div>
+          </form>`
+        );
+        
+        modal
+          .querySelector(".modal-cancel")
+          .addEventListener("click", () => modal.remove());
+          
+        modal.querySelector("form").addEventListener("submit", (e) => {
+          e.preventDefault();
+          const newName = modal.querySelector("#category-name-edit").value.trim();
+          if (!newName) return;
+
+          appData.categoryNames[categoryKey] = newName;
+          modal.remove();
+          render();
+          renderManagementLists();
+          showToast("Category name updated successfully!");
+        });
+      }
+      
+      function createManagementItem(subject) {
+        const item = document.createElement("div");
+        item.className = "management-item";
+        item.dataset.id = subject.id;
+        
+        const icon = subject.type === "personal" ? "fa-star" : "fa-book";
+        const taskCount = (appData.practicals[subject.id] || []).length;
+        
+        item.innerHTML = `
+          <div class="management-item-info">
+            <div class="management-item-icon">
+              <i class="fas ${icon}"></i>
+            </div>
+            <div class="management-item-name">${escapeHtml(subject.name)}</div>
+            <div class="ml-2 text-xs text-gray-500">(${taskCount} tasks)</div>
+          </div>
+          <div class="management-item-actions">
+            <button class="management-btn management-btn-secondary edit-item-btn">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button class="management-btn management-btn-danger delete-item-btn">
+              <i class="fas fa-trash"></i>
+              Delete
+            </button>
+          </div>
+        `;
+        
+        // Add event listeners
+        item.querySelector(".edit-item-btn").addEventListener("click", () => {
+          openEditSubjectModal(subject.id);
+        });
+        
+        item.querySelector(".delete-item-btn").addEventListener("click", () => {
+          openDeleteSubjectModal(subject.id);
+        });
+        
+        return item;
+      }
+      
+      function showAddForm(type) {
+        hideAllAddForms();
+        
+        if (type === "personal") {
+          document.getElementById("add-personal-form").classList.remove("hidden");
+          document.getElementById("add-personal-form").querySelector("input").focus();
+        } else {
+          document.getElementById("add-academic-form").classList.remove("hidden");
+          document.getElementById("add-academic-form").querySelector("input").focus();
+        }
+      }
+      
+      function hideAllAddForms() {
+        document.querySelectorAll(".management-form").forEach(form => {
+          form.classList.add("hidden");
+        });
+      }
+      
+      function addSubject(name, type) {
+        const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "") + uid("s");
+        appData.subjects.push({ id, name, type });
+        appData.practicals[id] = [];
+        renderManagementLists();
+        render();
+        showToast(`${type === 'personal' ? 'Folder' : 'Subject'} created successfully!`);
+      }
+
       // --- Event Handlers & Logic ---
+      
+      // NEW: Helper to find subject name by ID
+      function findSubjectNameById(sid) {
+        const subject = appData.subjects.find(s => s.id === sid);
+        return subject ? subject.name : "Unknown";
+      }
+      
       function findSubjectByPracticalId(pid) {
         for (const sid of Object.keys(appData.practicals)) {
-          if (appData.practicals[sid].some((x) => x.id === pid)) {
-            if (sid === "side-hustle") return null;
+          if (appData.practicals[sid] && appData.practicals[sid].some((x) => x.id === pid)) {
             return appData.subjects.find((s) => s.id === sid);
           }
         }
@@ -870,6 +1747,7 @@
 
       function setPracticalStatusById(id, newStatus) {
         for (const sid in appData.practicals) {
+          if (!appData.practicals[sid]) continue;
           const p = appData.practicals[sid].find((x) => x.id === id);
           if (p) {
             p.status = newStatus;
@@ -881,6 +1759,7 @@
 
       function deleteCardById(id) {
         for (const sid in appData.practicals) {
+          if (!appData.practicals[sid]) continue;
           const idx = appData.practicals[sid].findIndex((x) => x.id === id);
           if (idx > -1) {
             lastDeleted = {
@@ -897,6 +1776,9 @@
 
       function undoDelete() {
         if (lastDeleted) {
+          if (!appData.practicals[lastDeleted.subjectId]) {
+             appData.practicals[lastDeleted.subjectId] = [];
+          }
           appData.practicals[lastDeleted.subjectId].push(lastDeleted.item);
           lastDeleted = null;
           render();
@@ -926,7 +1808,7 @@
         const wrap = document.createElement("div");
         wrap.className =
           "modal-overlay fixed inset-0 flex items-center justify-center z-50 p-4";
-        wrap.innerHTML = `<div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6"> <div class='flex items-center justify-between mb-4'> <h3 class='text-xl font-bold'>${title}</h3> <button class='modal-close text-gray-400 hover:text-gray-700'><i class='fas fa-times'></i></button></div><div>${innerHtml}</div></div>`;
+        wrap.innerHTML = `<div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6"> <div class='flex items-center justify-between mb-4'> <h3 class='text-xl font-bold'>${title}</h3> <button class='modal-close hover:text-gray-700'><i class='fas fa-times'></i></button></div><div>${innerHtml}</div></div>`;
         document.getElementById("modals-container").appendChild(wrap);
         wrap
           .querySelector(".modal-close")
@@ -937,17 +1819,24 @@
         return wrap;
       }
 
-      function openAddSubjectModal() {
+      function openEditSubjectModal(subjectId) {
+        const subject = appData.subjects.find((s) => s.id === subjectId);
+        if (!subject) return;
+
+        modalTitle = subject.type === 'personal' ? '✏️ Edit Folder Name' : '✏️ Edit Subject Name';
+
         const modal = createModal(
-          "📚 Add New Subject",
-          `<form id='add-subj' class='space-y-4'>
+          modalTitle,
+          `<form id='edit-subj' class='space-y-4'>
             <div>
-              <label for='s-name' class='block text-sm font-medium text-gray-700 mb-1'>Subject Name</label>
-              <input id='s-name' placeholder='e.g., Computer Networks' class='w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300' required/>
+              <label for='s-name-edit' class='block text-sm font-medium mb-1'>Name</label>
+              <input id='s-name-edit' value="${escapeHtml(
+                subject.name
+              )}" class='w-full px-3 py-2 border rounded-lg' required/>
             </div>
             <div class='flex justify-end gap-2 pt-2'>
               <button type='button' class='modal-cancel px-4 py-2 border rounded-lg hover:bg-gray-100'>Cancel</button>
-              <button class='px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700'>Add Subject</button>
+              <button class='px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700'>Save Changes</button>
             </div>
           </form>`
         );
@@ -956,49 +1845,102 @@
           .addEventListener("click", () => modal.remove());
         modal.querySelector("form").addEventListener("submit", (e) => {
           e.preventDefault();
-          const name = modal.querySelector("#s-name").value.trim();
-          if (!name) return;
-          const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "") + uid("s");
-          appData.subjects.push({ id, name });
-          appData.practicals[id] = [];
+          const newName = modal.querySelector("#s-name-edit").value.trim();
+          if (!newName) return;
+
+          const subj = appData.subjects.find((s) => s.id === subjectId);
+          if (subj) {
+            subj.name = newName;
+          }
+
           modal.remove();
           render();
+          renderManagementLists();
+          showToast(`${subject.type === 'personal' ? 'Folder' : 'Subject'} updated successfully!`);
         });
+      }
+
+      function openDeleteSubjectModal(subjectId) {
+        const subject = appData.subjects.find((s) => s.id === subjectId);
+        if (!subject) return;
+
+        const taskCount = (appData.practicals[subjectId] || []).length;
+        const itemType = subject.type === 'personal' ? 'folder' : 'subject';
+
+        const modal = createModal(
+          `🗑️ Delete ${itemType}`,
+          `<div class='space-y-4'>
+            <p>Are you sure you want to delete the ${itemType} "<strong>${escapeHtml(
+              subject.name
+            )}</strong>"?</p>
+            <p class='text-sm text-red-600 bg-red-50 p-3 rounded-lg'>
+              <i class='fas fa-exclamation-triangle mr-2'></i>
+              This action is permanent and will also delete <strong>${taskCount}</strong> associated task(s).
+            </p>
+            <div class='flex justify-end gap-2 pt-2'>
+              <button type='button' class='modal-cancel px-4 py-2 border rounded-lg hover:bg-gray-100'>Cancel</button>
+              <button id='confirm-delete' class='px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700'>Delete ${itemType}</button>
+            </div>
+          </div>`
+        );
+        modal
+          .querySelector(".modal-cancel")
+          .addEventListener("click", () => modal.remove());
+        modal
+          .querySelector("#confirm-delete")
+          .addEventListener("click", () => {
+            const idx = appData.subjects.findIndex((s) => s.id === subjectId);
+            if (idx > -1) {
+              appData.subjects.splice(idx, 1);
+            }
+            delete appData.practicals[subjectId];
+
+            if (appData.active === subjectId) {
+              appData.active = "dashboard";
+            }
+
+            modal.remove();
+            render();
+            renderManagementLists();
+            showToast(`${itemType} deleted.`);
+          });
       }
 
       function openEditModal(practicalId) {
         let subjectId = null,
           item = null;
         for (const sid in appData.practicals) {
-          const found = appData.practicals[sid].find(
-            (x) => x.id === practicalId
-          );
-          if (found) {
-            subjectId = sid;
-            item = found;
-            break;
-          }
+            if (!appData.practicals[sid]) continue; // Safeguard
+            const found = appData.practicals[sid].find(
+                (x) => x.id === practicalId
+            );
+            if (found) {
+                subjectId = sid;
+                item = found;
+                break;
+            }
         }
         if (!item) return;
 
         const modal = createModal(
           "✏️ Edit Task",
           `<form class='space-y-4'>
-            <div><label class='block text-sm font-medium text-gray-700 mb-1'>Title</label><input id='e-title' class='w-full px-3 py-2 border rounded-lg' required /></div>
-            <div><label class='block text-sm font-medium text-gray-700 mb-1'>Due Date</label><input id='e-due' type='date' class='w-full px-3 py-2 border rounded-lg' /></div>
+            <div><label class='block text-sm font-medium mb-1'>Title</label><input id='e-title' class='w-full px-3 py-2 border rounded-lg' required /></div>
+            <div><label class='block text-sm font-medium mb-1'>Due Date</label><input id='e-due' type='date' class='w-full px-3 py-2 border rounded-lg' /></div>
             <div class='flex gap-4'>
-              <div class='flex-1'><label class='block text-sm font-medium text-gray-700 mb-1'>Folder</label><select id='e-subject' class='w-full px-3 py-2 border rounded-lg'></select></div>
-              <div><label class='block text-sm font-medium text-gray-700 mb-1'>Status</label><select id='e-status' class='w-full px-3 py-2 border rounded-lg'></select></div>
+              <div class='flex-1'><label class='block text-sm font-medium mb-1'>Folder</label><select id='e-subject' class='w-full px-3 py-2 border rounded-lg'></select></div>
+              <div><label class='block text-sm font-medium mb-1'>Status</label><select id='e-status' class='w-full px-3 py-2 border rounded-lg'></select></div>
             </div>
             <div class='flex justify-end gap-2 pt-2'><button type='button' class='modal-cancel px-4 py-2 border rounded-lg'>Cancel</button><button class='px-4 py-2 bg-indigo-600 text-white rounded-lg'>Save Changes</button></div>
           </form>`
         );
 
+        // UPDATED: Dynamic subject dropdown in edit modal
         const subjSelect = modal.querySelector("#e-subject");
-        subjSelect.innerHTML =
-          '<option value="side-hustle">🌟 Side Hustle</option>';
+        subjSelect.innerHTML = "";
         appData.subjects.forEach((s) => {
-          subjSelect.innerHTML += `<option value='${s.id}'>📚 ${s.name}</option>`;
+          const icon = s.type === 'personal' ? '🌟' : '📚';
+          subjSelect.innerHTML += `<option value='${s.id}'>${icon} ${s.name}</option>`;
         });
 
         const statusSelect = modal.querySelector("#e-status");
@@ -1012,7 +1954,7 @@
         statusSelect.value = item.status;
 
         modal
-          .querySelector(".modal-cancel")
+          .querySelector(".modal-close")
           .addEventListener("click", () => modal.remove());
         modal.querySelector("form").addEventListener("submit", (e) => {
           e.preventDefault();
@@ -1025,6 +1967,11 @@
               (x) => x.id === item.id
             );
             if (idx > -1) appData.practicals[subjectId].splice(idx, 1);
+            
+            // Ensure the new subject practicals array exists
+            if (!appData.practicals[newSub]) {
+              appData.practicals[newSub] = [];
+            }
             appData.practicals[newSub].push(item);
           }
           item.title = newTitle;
@@ -1055,6 +2002,8 @@
             if (!parsed.subjects || !parsed.practicals)
               throw new Error("Invalid format");
             appData = parsed;
+            // Run load() again to process and migrate imported data if needed
+            load(); 
             render();
             showToast("Import successful!");
           } catch (err) {
@@ -1067,6 +2016,7 @@
       // --- Initial Setup & Event Listeners ---
       document.addEventListener("DOMContentLoaded", () => {
         load();
+        loadTheme();
         render();
 
         // Sidebar navigation
@@ -1099,10 +2049,18 @@
           overlay.classList.add("hidden");
         });
 
-        // Add subject
-        document
-          .getElementById("add-subject-btn")
-          .addEventListener("click", openAddSubjectModal);
+        // Global Manage Button Listener
+        const manageAllBtn = document.getElementById("manage-all-btn");
+        manageAllBtn.addEventListener("click", () => {
+          openManagementModal();
+        });
+        
+        // Theme Switcher Logic
+        document.querySelectorAll(".theme-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            applyTheme(btn.dataset.theme);
+          });
+        });
 
         // Quick add
         document
@@ -1118,6 +2076,12 @@
             const title = document.getElementById("quick-title").value.trim();
             const subjectId = document.getElementById("quick-subject").value;
             if (!title || !subjectId) return;
+            
+            // Ensure array exists before pushing
+            if (!appData.practicals[subjectId]) {
+              appData.practicals[subjectId] = [];
+            }
+            
             appData.practicals[subjectId].push({
               id: uid(),
               title,
@@ -1126,6 +2090,7 @@
               createdAt: Date.now(),
             });
             e.target.reset();
+            document.getElementById("quick-title").focus(); // Keep focus for rapid entry
             render();
           });
 
@@ -1155,8 +2120,14 @@
             showToast("Feature coming soon: A dedicated 'Overdue' focus mode!");
           }
           if (e.target.closest("#view-personal")) {
-            appData.active = "side-hustle";
-            render();
+            // UPDATED: Clicks the first personal folder it finds
+            const firstPersonal = appData.subjects.find(s => s.type === 'personal');
+            if (firstPersonal) {
+              appData.active = firstPersonal.id;
+              render();
+            } else {
+              showToast("No personal folders found.");
+            }
           }
         });
 
@@ -1178,7 +2149,7 @@
             document
               .querySelectorAll(".modal-overlay")
               .forEach((m) => m.remove());
-            document  
+            document
               .querySelectorAll(".actions-popup")
               .forEach((p) => p.classList.add("hidden"));
           }
@@ -1186,7 +2157,4 @@
       });
     </script>
   </body>
-<!-- Author: Jatin Patel-->
-<!-- Date: 27 September 2025 -->
-<!-- Purpose: Academics Submission Tracker -->
-</html> 
+</html>
